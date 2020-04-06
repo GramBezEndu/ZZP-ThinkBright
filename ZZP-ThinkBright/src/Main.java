@@ -10,42 +10,16 @@ import Lights.Light;
 public class Main {
 
     public static void main(String[] args) {
-        Heater();
-        GardenLights();
-        TheatreLights();
-        Gateway();
-    }
+        House myHouse = new House();
+        myHouse.addHeater(new Heater());
+        myHouse.addLight(new GardenLightDecorator(new Light()));
+        myHouse.addLight(new HomeTheatreLightDecorator(new Light()));
+        myHouse.addDoor(new GatewayDecorator(new Door(), new Light()));
 
-    private static void Gateway() {
-        System.out.println("Gateway:");
-        IDoor gateway = new GatewayDecorator(new Door(), new Light());
-        gateway.open();
-        gateway.close();
-        System.out.println();
-    }
-
-    private static void Heater() {
-        System.out.println("Heater:");
-        Heater heater = new Heater();
-        heater.setTemperature(22f);
-        heater.turnOn();
-        heater.turnOff();
-        System.out.println();
-    }
-
-    private static void GardenLights() {
-        System.out.println("Garden lights:");
-        ILight gardenLight = new GardenLightDecorator(new Light());
-        gardenLight.turnOn();
-        gardenLight.turnOff();
-        System.out.println();
-    }
-
-    private static void TheatreLights() {
-        System.out.println("Home theatre lights:");
-        ILight homeTheatreLight = new HomeTheatreLightDecorator(new Light());
-        homeTheatreLight.turnOn();
-        homeTheatreLight.turnOff();
-        System.out.println();
+        //open all doors
+        myHouse.enterHouse();
+        myHouse.turnOffHeaters();
+        //close doors, turn off lights, turn off heaters
+        myHouse.leaveHouse();
     }
 }
